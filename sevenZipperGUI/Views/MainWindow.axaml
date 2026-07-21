@@ -18,9 +18,10 @@
 
     <Grid>
         <StackPanel Margin="10,0">
-            <Label Content="asd"></Label>
+            <Label x:Name="lblPath" Content="asd"></Label>
             <Button x:Name="btnFile" Content="File" Click="OpenFile" ></Button>
             <Button x:Name="btnFolder" Content="Folder" Click="OpenFolder" ></Button>
+            <Button x:Name="btnStartCompress" Content="Compress" Click="StartCompress"></Button>
         </StackPanel>
         
     </Grid>
