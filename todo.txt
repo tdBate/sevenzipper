@@ -1,2 +1,4 @@
--multiple files and folders
 -light and dark mode
+-improve selection display
+    -optimization
+    -deleting

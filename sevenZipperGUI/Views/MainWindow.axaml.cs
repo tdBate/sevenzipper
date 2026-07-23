@@ -1,7 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace sevenZipperGUI.Views;
@@ -9,7 +11,7 @@ namespace sevenZipperGUI.Views;
 
 public partial class MainWindow : Window
 {
-    LocationPath location;
+    List<LocationPath> location = new List<LocationPath>();
 
     public MainWindow()
     {
@@ -30,7 +32,7 @@ public partial class MainWindow : Window
         if (files.Count >= 1)
         {
             var selectedFile = files[0];
-            location = new LocationPath(selectedFile.Path.LocalPath);
+            location.Add(new LocationPath(selectedFile.Path.LocalPath));
             DisplayPath();
         }
     }
@@ -49,19 +51,35 @@ public partial class MainWindow : Window
         if (folders.Count >= 1)
         {
             var selectedFolder = folders[0];
-            location = new LocationPath(selectedFolder.Path.LocalPath);
+            location.Add(new LocationPath(selectedFolder.Path.LocalPath));
             DisplayPath();
         }
     }
 
     private void DisplayPath()
     {
-        lblPath.Content = location.FullPath();
+        lbSelected.Items.Clear();
+        for (int i = 0; i < location.Count; i++)
+        {
+            ListBoxItem l1 = new ListBoxItem();
+            l1.Content = location[i].FullPath();
+            lbSelected.Items.Add(l1);
+        }
+
     }
 
     private void StartCompress(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        string command = $"cd {location.folderPath}/ && 7z a testadpaef.7z {location.fileName}"; //set command
+        //command setup
+        string command = $"7z a /home/batelinux/0test/testadpaef.7z ";
+        for (int i = 0; i < location.Count; i++)
+        {
+            command += location[i].FullPath()+" ";
+        }
+
+        System.Console.WriteLine(command);
+
+        //compression process start
         ProcessStartInfo processInfo = new ProcessStartInfo("/bin/bash")
         {
             CreateNoWindow = false,          // Hides the terminal window
