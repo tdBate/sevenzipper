@@ -19,7 +19,8 @@
     <Grid>
         <StackPanel Margin="10,0">
             <ListBox x:Name="lbSelected"></ListBox>
-            <Label x:Name="lblPath" Content="asd"></Label>
+            <Label x:Name="lblTarget"></Label>
+            <Button x:Name="btnTarget" Content="Target" Click="SelectTarget"></Button>
             <Button x:Name="btnFile" Content="File" Click="OpenFile" ></Button>
             <Button x:Name="btnFolder" Content="Folder" Click="OpenFolder" ></Button>
             <Button x:Name="btnStartCompress" Content="Compress" Click="StartCompress"></Button>

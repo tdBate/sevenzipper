@@ -12,6 +12,7 @@ namespace sevenZipperGUI.Views;
 public partial class MainWindow : Window
 {
     List<LocationPath> location = new List<LocationPath>();
+    string target;
 
     public MainWindow()
     {
@@ -71,10 +72,10 @@ public partial class MainWindow : Window
     private void StartCompress(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         //command setup
-        string command = $"7z a /home/batelinux/0test/testadpaef.7z ";
+        string command = $"7z a {target} ";
         for (int i = 0; i < location.Count; i++)
         {
-            command += location[i].FullPath()+" ";
+            command += location[i].FullPath() + " ";
         }
 
         System.Console.WriteLine(command);
@@ -106,6 +107,29 @@ public partial class MainWindow : Window
             {
                 Console.WriteLine("ERROR:\n" + error);
             }
+        }
+    }
+
+    async private void SelectTarget(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel == null) return;
+
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "Save Archive As...",
+            SuggestedFileName = "archive.7z",
+            DefaultExtension = "7z",
+            FileTypeChoices = new[]
+        {
+            new FilePickerFileType("Text Documents") { Patterns = new[] { "*.7z" } },
+        }
+        });
+
+        if (file != null)
+        {
+            target = file.Path.LocalPath;
+            lblTarget.Content = file.Path.LocalPath;
         }
     }
 }
