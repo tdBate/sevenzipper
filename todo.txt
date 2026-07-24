@@ -1,4 +1,4 @@
 -light and dark mode
 -improve selection display
     -optimization
-    -deleting
+-compression status

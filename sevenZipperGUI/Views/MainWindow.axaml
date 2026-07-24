@@ -12,20 +12,21 @@
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
 
     <Grid>
         <StackPanel Margin="10,0">
-            <ListBox x:Name="lbSelected"></ListBox>
+            <ListBox x:Name="lbSelected" SelectionMode="Multiple"></ListBox>
+            <Button x:Name="btnDeleteSelectedItem" Content="Delete" Click="DeleteSelectedItems"></Button>
             <Label x:Name="lblTarget"></Label>
             <Button x:Name="btnTarget" Content="Target" Click="SelectTarget"></Button>
             <Button x:Name="btnFile" Content="File" Click="OpenFile" ></Button>
             <Button x:Name="btnFolder" Content="Folder" Click="OpenFolder" ></Button>
             <Button x:Name="btnStartCompress" Content="Compress" Click="StartCompress"></Button>
         </StackPanel>
-        
+
     </Grid>
 
 </Window>

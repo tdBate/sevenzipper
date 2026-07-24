@@ -3,6 +3,7 @@ using Avalonia.Platform.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -27,13 +28,15 @@ public partial class MainWindow : Window
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Select a File",
-            AllowMultiple = false,
+            AllowMultiple = true,
         });
 
         if (files.Count >= 1)
         {
-            var selectedFile = files[0];
-            location.Add(new LocationPath(selectedFile.Path.LocalPath));
+            for (int i = 0; i < files.Count; i++)
+            {
+                location.Add(new LocationPath(files[i].Path.LocalPath));
+            }
             DisplayPath();
         }
     }
@@ -46,13 +49,15 @@ public partial class MainWindow : Window
         var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
             Title = "Select a Folder",
-            AllowMultiple = false
+            AllowMultiple = true
         });
 
         if (folders.Count >= 1)
         {
-            var selectedFolder = folders[0];
-            location.Add(new LocationPath(selectedFolder.Path.LocalPath));
+            for (int i = 0; i < folders.Count; i++)
+            {
+                location.Add(new LocationPath(folders[i].Path.LocalPath));
+            }
             DisplayPath();
         }
     }
@@ -108,6 +113,10 @@ public partial class MainWindow : Window
                 Console.WriteLine("ERROR:\n" + error);
             }
         }
+
+        //reset selected items
+        lbSelected.Items.Clear();
+        location.Clear();
     }
 
     async private void SelectTarget(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -130,6 +139,19 @@ public partial class MainWindow : Window
         {
             target = file.Path.LocalPath;
             lblTarget.Content = file.Path.LocalPath;
+        }
+    }
+
+    private void DeleteSelectedItems(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        List<ListBoxItem> removeItems = lbSelected.SelectedItems.Cast<ListBoxItem>().ToList();
+        for (int i = 0; i < removeItems.Count; i++)
+        {
+            ListBoxItem l1 = (ListBoxItem)removeItems[i];
+            int objIndex = location.FindIndex(r => r.FullPath() == l1.Content.ToString());
+
+            location.RemoveAt(objIndex);
+            lbSelected.Items.Remove(l1);
         }
     }
 }
