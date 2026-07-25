@@ -4,29 +4,65 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:dialogs="using:Avalonia.Dialogs"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
         x:Class="sevenZipperGUI.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="sevenZipperGUI">
+        Title="sevenZipperGUI"
+        Width="1280"
+        Height="720"
+        >
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-        to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <!-- This only sets the DataContext for the previewer in an IDE, to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
 
+    <Window.Styles>
+        <Style Selector="Button.btn">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        </Style>
+    </Window.Styles>
+
     <Grid>
-        <StackPanel Margin="10,0">
-            <ListBox x:Name="lbSelected" SelectionMode="Multiple"></ListBox>
-            <Button x:Name="btnDeleteSelectedItem" Content="Delete" Click="DeleteSelectedItems"></Button>
-            <Label x:Name="lblTarget"></Label>
-            <Button x:Name="btnTarget" Content="Target" Click="SelectTarget"></Button>
-            <Button x:Name="btnFile" Content="File" Click="OpenFile" ></Button>
-            <Button x:Name="btnFolder" Content="Folder" Click="OpenFolder" ></Button>
-            <Button x:Name="btnStartCompress" Content="Compress" Click="StartCompress"></Button>
-        </StackPanel>
+        <!--Couloms and rows setup-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <!--displays-->
+        <Grid Grid.Column="0" Grid.Row="0"> 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" x:Name="lbSelected" SelectionMode="Multiple"></ListBox>
+            <Button Classes="btn" Grid.Row="1" x:Name="btnDeleteSelectedItem" Content="Delete" Click="DeleteSelectedItems"></Button>
+            <Label Grid.Row="2" x:Name="lblTarget"></Label>
+        </Grid>
+
+        <!--Controlls-->
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Button Classes="btn" Grid.Row="0" x:Name="btnFile" Content="File" Click="OpenFile" ></Button>
+            <Button Classes="btn" Grid.Row="1" x:Name="btnFolder" Content="Folder" Click="OpenFolder" ></Button>
+            <Button Classes="btn" Grid.Row="2" x:Name="btnTarget" Content="Target" Click="SelectTarget"></Button>
+            <Button Classes="btn" Grid.Row="3" x:Name="btnStartCompress" Content="Compress" Click="StartCompress"></Button>
+        </Grid>
     </Grid>
-
 </Window>
